@@ -7,10 +7,15 @@ class WorkRegistry
 	function __construct()
 	{
 		self::$instance = $this;
-		
+		add_action('init', array(&$this, 'works_register'));
+	}
+	
+	function works_register()
+	{
+		// Each time you add a custom post type the .htaccess file needs to be rewritten or something. Just visiting the permalinks page seems to fix the 404 for new custom post types.
 		register_taxonomy( 'work_author', 'work', array(
 			'label' => 'Author', 'labels' => array( 'name' => 'Authors' ),
-			'rewrite' => false, //array( 'slug' => 'authors' ),
+			'rewrite' => array( 'slug' => 'authors' ),
 		));
 
 		register_taxonomy_for_object_type('category', 'work');
@@ -20,8 +25,7 @@ class WorkRegistry
 			'description' => 'Works like books, poems etc', 'public' => true,
 			'label' => 'Works', 'labels' => array('name' => 'Works', 'add_new_item' => 'Add New Work'),
 			'menu_position' => 5, 'menu_icon' => cs_var('bib-base') . '/assets/work.png',
-			'rewrite' => false, // TODO: Error add_rewrite_tag() on a non-object
-			//'rewrite' => array( 'slug' => 'works' ),
+			'rewrite' => array('slug' => 'works', 'with_front' => true, 'pages' => true, 'feeds' => true),
 			'capability_type' => 'post', //'capabilities' => array(''),
 			//'supports' => '',
 			'map_meta_cap' => true,

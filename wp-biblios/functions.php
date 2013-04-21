@@ -1,4 +1,5 @@
 <?php
+if (!function_exists('cs_var')) {
 function cs_var($name, $val = null)
 {
 	global $cscore;
@@ -7,7 +8,7 @@ function cs_var($name, $val = null)
 		$cscore[$name] = $val;
 	else
 		return isset($cscore[$name]) ? $cscore[$name] : false;
-}
+} }
 
 function cs_work($id, $data = null)
 {
@@ -41,8 +42,13 @@ function cs_work_read($id)
 		{
 			$cfg = sprintf('%s/%s/config.php', cs_var('bib-data'), $wk['fol']);
 			$wk['cfgFile'] = $cfg;
-			$wk['contentFile'] = sprintf('%s/%s/content.php', cs_var('bib-data'), $wk['fol']);;
-			$wk['config'] = include $cfg;
+			$wk['contentFile'] = sprintf('%s/%s/content.php', cs_var('bib-data'), $wk['fol']);
+			if ($wk['cfgOk'] = file_exists($cfg))
+				$wk['config'] = include $cfg;
+			else
+				$wk['cfgError'] = sprintf('<div class="work-error"><em>Missing Config!</em><br/> Go the the %s folder and add %s/config.php, or %s the folder correctly.</div>', 
+					CHtml::link('data', content_url('/data/'), array('target' => '_blank')), $wk['fol'], 
+					CHtml::link('edit', get_edit_post_link($id, '')));
 		}
 	}
 	return $wk;
@@ -70,7 +76,9 @@ function cs_work_get($what)
 	} else if ($what == 'content') {
 		include 'csb-' . (WorkNav::search() ? 'search' : 'content') . '.php';
 	} else if ($what == 'sidebar') {
-		include 'csb-sidebar.php';
+		_nl('<div class="widget bib-nav">');
+		WorkMenu::render($id, $wk);
+		_nl('</div>');
 	} else if ($what == 'header') {
 		include 'csb-header.php';
 	} else {

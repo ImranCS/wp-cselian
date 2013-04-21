@@ -9,6 +9,9 @@ class WorkNav
 	
 	function action_head()
 	{
+		wp_register_style('bibworks-css', cs_var('bib-base') . '/assets/works.css');
+		wp_enqueue_style('bibworks-css');
+		
 		if (!cs_work_get('hascontent')) return; 
 		
 		wp_register_script('tabber', cs_var('bib-base') . '/assets/tabber-minimized.js');
@@ -30,15 +33,17 @@ class WorkNav
 	
 	function post($id, $node = '', $page = '')
 	{
-		if ($node == 'search') return home_url(); //$node = '&search=1';
-		if ($node != '') $node = '&node=' . $node;
-		if ($page != '') $page = '&page=' . $page;
-		return home_url() . '?post_type=work&p=' . $id . $node . $page;
+		if ($node == 'search') return get_permalink($id);
+		$qs = array();
+		if ($node != '') $qs[] = 'node=' . $node;
+		if ($page != '') $qs[] = 'page=' . $page;
+		$qs = count($qs) == 0 ? '' : '?' . implode('&', $qs);
+		return get_permalink($id) . $qs;
 	}
 	
-	function author($a)
+	function authorLink($a)
 	{
-		return home_url() . '/?work_author=' . $a->slug;
+		return CHtml::link($a->name, get_term_link($a));
 	}
 
 // These are getters from url
@@ -55,31 +60,8 @@ class WorkNav
 
 	function search()
 	{
-		if (!isset($_GET['search'])) return 0;
+		if (!isset($_GET['s'])) return 0;
 		return $_GET['s'];
-	}
-
-// These are for building
-	function getNodeId($wk)
-	{
-		$node = self::node();
-		$titles = $wk['config']['titles'];
-		$slugs = $wk['config']['slugs'];
-		$tcnt = count($titles);
-		if (count($slugs) == 1)
-		{
-			for ($i = 1; $i < $tcnt; $i++)
-			{
-				$n = $slugs[0] . $i;
-				if ($node == $n) return sprintf($wk['config']['keyFormat'], $i);
-			}
-		}
-		else
-		{
-			echo 'NOT IMPLEMENTED FOR 2 Level menu';
-		}
-		
-		echo 'Couldnt find node ' . $node;
 	}
 }
 new WorkNav();

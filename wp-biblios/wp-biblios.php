@@ -22,4 +22,6 @@ Author URI: http://cselian.com/blog/about
 include_once 'functions.php';
 include_once 'csb-work.php';
 include_once 'csb-nav.php';
+include_once 'csb-menu.php';
+include_once 'csb-widget.php';
 ?>

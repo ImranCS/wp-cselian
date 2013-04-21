@@ -9,6 +9,15 @@ if (!isset($_GET['id']))
 		In post edit, the Work Details box has a link to directly edit the config.<br>
 		Select a work below to edit its configuration<br />
 	</div>
+	<?php
+	$wks = get_posts('post_type=work');
+	foreach ($wks as $itm)
+	{
+		$wk = cs_work($itm->ID);
+		if (!$wk || $wk['fol'] == '') continue;
+		_nl(CHtml::link($itm->post_title, get_permalink($itm)), 1);
+	}
+	?>
 <?php }
 else
 {

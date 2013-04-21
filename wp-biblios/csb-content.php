@@ -1,11 +1,14 @@
 <?php
 class WorkContent
 {
+	private static $itemFormat = '<p>%s</p>
+';
 	public function display($wk)
 	{
 		$data = array();
 		include $wk['contentFile'];
-		$node = $data[WorkNav::getNodeId($wk)];
+		if (isset($wk['config']['itemFormat'])) self::$itemFormat = $wk['config']['itemFormat'];
+		$node = $data[WorkMenu::getNodeId($wk)];
 		self::nodeTabs($node);
 	}
 	
@@ -43,8 +46,7 @@ class WorkContent
 
 	function formatItem($txt, $search, $i = null, $tab = null, $node = null)
 	{
-		return $search ? $txt : sprintf('<p>%s</p>
-', $txt);
+		return $search ? $txt : sprintf(self::$itemFormat, $txt);
 	}
 }
 
