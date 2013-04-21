@@ -18,19 +18,49 @@ Author: <a href="mailto:imran@cselian.com">Imran Ali Namazi</a>
  * }}}
  */
 
-function csadm_pluginLink($links, $file)
-{
-	$plugin = plugin_basename(__FILE__);
-	
-	if ($file != $plugin)
-		return $links;
-	
-	$link = content_url('plugins/' . plugin_basename(dirname(__FILE__) . '/ms-plugins.php'));
-	$link = sprintf( '<a target="_new" href="%s">%s</a>', $link, __('MS Plugins') );
-	return array_merge($links, array($link));
-}
+// Nice to have - a post id reseed using
+// http://stackoverflow.com/a/5437720
+// but wordpress doesnt use foreign keys in the first place
 
-global $wp_version;
-if ( version_compare( $wp_version, '2.8alpha', '>' ) )
-	add_filter( 'plugin_row_meta', 'csadm_pluginLink', 10, 2 );
+include_once 'functions.php';
+
+class CSAdmin
+{
+	public static $instance;
+	
+	function __construct()
+	{
+		self::$instance = $this;
+
+		global $wp_version;
+		if ( version_compare( $wp_version, '2.8alpha', '>' ) )
+			add_filter( 'plugin_row_meta', array($this, 'plugin_link'), 10, 2 );
+
+		add_action('admin_menu', array(&$this, 'register_admin'));
+	}
+	
+	public static $reseedSlug = 'csadmin-reseed';
+	
+	function register_admin()
+	{
+		// Made Other a plugin Multisite (if config found)
+		add_submenu_page('tools.php', 'Reseed Posts', 'Reseed', 'manage_options', 
+			self::$reseedSlug, array($this, 'pages_reseed'));
+	}
+	
+	function plugin_link($links, $file)
+	{
+		if ($file != plugin_basename(__FILE__)) return $links;
+		
+		$fmt = '<a target="_new" href="%s">%s</a>';
+		$link = sprintf( $fmt, cs_var('adm-base') . '/ms-plugins.php', __('MS Plugins') );
+		return array_merge($links, array($link));
+	}
+	
+	function pages_reseed()
+	{
+		include 'reseed.php';
+	}
+}
+new CSAdmin();
 ?>

@@ -1,0 +1,14 @@
+<a href="/#jquery-mega-menu/dcwp_jquery_mega_menu.php">jQuery Mega Menu</a><br/>
+<a href="/#qtranslate/qtranslate.php">qTranslate</a><br/>
+<a href="/#qtranslate-meta/qtranslate-meta.php">qTranslate META</a><br/>
+<a href="/#qtranslate-separate-comments/qtranslate-separate-comments.php">qTranslate Separate Comments</a><br/>
+<a href="/#qtranslate-slug-with-widget/qtranslate-slug-with-widget.php">qTranslate slug with Widget</a><br/>
+
+
+missed in wp/
+The plugin custom-content-type-manager/index.php has been deactivated due to an error: Plugin file does not exist.
+The plugin simple-taxonomy/simple-taxonomy.php has been deactivated due to an error: Plugin file does not exist.
+
+Custom Content Type Manager
+Allows users to create custom content types (also known as post types) and standardize custom fields for each content type, including dropdowns, checkboxes, and images. This gives WordPress CMS functionality making it easier to use WP for eCommerce or content-driven sites.
+
