@@ -1,13 +1,17 @@
-.postbox-container { width:90%; margin-top: 30px; }
+.postbox-container { width:90%; margin-top: 15px; }
 .pb-full { width: 95%; }
-.postbox h3 { padding: 5px; }
+.postbox h2 { margin-top: 10px; }
+.postbox h3 { padding: 5px; margin-top: 10px; }
 .postbox h4 { margin-top: 30px; }
 .postbox-container .intbox { width:30px!important; }
 .postbox-container .stretchbox { width: 270px!important; }
 .postbox-container .shortbox { width: 100px!important; }
+.pb-side { float: right; width: 130px; text-align: center; }
 
 .postbox { padding: 10px; min-height: 200px; }
 .notice-side, .notice { background-color: #F1FFE3; border: 1px #006633 solid; padding: 5px; }
 .notice-side { float: right; width: 250px; line-height: 18px; } .notice { margin-bottom: 10px; }
 .actions { float: right; width: 90px; }
 .actions a.button { margin-bottom: 12px; width: 80px; text-align: center; }
+
+.postbox { line-height: 18px!important; } /* offset 1 in wp-admin.css line 2153 */

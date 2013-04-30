@@ -2,6 +2,7 @@ wp-cselian
 ==========
 
 Various plugins and themes for use in wordpress.
+Using classes when possible.
 
 Companion
 -----------
@@ -23,10 +24,13 @@ See more: https://github.com/ImranCS/wp-cselian/wiki/Generator
 
 WP Admin
 ----------
-Rather than the multisite configuration, I read $_SERVER['HTTP_HOST'] and vary the wordpress database.
-This keeps them isolated and is especially useful for staging websites that have to be moved eventually.
-Plugins can be updated at once, the only caveat is that its hard to track which plugins are in use on which site.
+An assortment of Wordpress Admin / core features
 
-See more: https://github.com/ImranCS/wp-cselian/wiki/Admin
+* Snippets like [TrueMultisite](https://github.com/ImranCS/wp-cselian/wiki/Admin#true-multisite) - separate DBs for same code base.
+* Multisite Plugin Overview to see what is installed where. [See demo](http://cselian.com/blog/wp-content/plugins/cs-admin/ms-plugins.php).
+* Reseed - change/reorganize ids to make contiguous, change wp_posts identity and trash posts / remove drafts.
+* Scripts - library for extra / custom reusable assets.
+* Functions - cs_var for runtime variables, _nl for whitespace fanatics, CHtml from yii.
+* CSAdminBase - base class for admin pages, easily print headings, forms, messages. check and log actions.
 
-In Action: http://cselian.com/blog/wp-content/plugins/cs-admin/ms-plugins.php
+See more about this plugin [here](https://github.com/ImranCS/wp-cselian/wiki/Admin)
