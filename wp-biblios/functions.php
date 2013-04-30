@@ -25,12 +25,6 @@ function cs_work($id, $data = null)
 	}
 }
 
-function _nl($txt, $br = 0)
-{
-	echo $txt . '
-' . ($br ? '<br />' : '');
-}
-
 function cs_work_read($id)
 {
 	$key = 'work-' . $id;
@@ -86,7 +80,6 @@ function cs_work_get($what)
 	}
 }
 
-include_once 'inc/CHtml.php';
 cs_var('bib-base', content_url('plugins/' . plugin_basename(dirname(__FILE__))));
 cs_var('bib-data', WP_CONTENT_DIR . '/data');
 cs_var('charset', 'iso-8859-1'); // utf8 not supported

@@ -23,6 +23,7 @@ Author: <a href="mailto:imran@cselian.com">Imran Ali Namazi</a>
 // but wordpress doesnt use foreign keys in the first place
 
 include_once 'functions.php';
+include_once 'csa-scripts.php';
 
 class CSAdmin
 {

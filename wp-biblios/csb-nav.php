@@ -13,11 +13,7 @@ class WorkNav
 		wp_enqueue_style('bibworks-css');
 		
 		if (!cs_work_get('hascontent')) return; 
-		
-		wp_register_script('tabber', cs_var('bib-base') . '/assets/tabber-minimized.js');
-		wp_enqueue_script('tabber');
-		wp_register_style('tabber-css', cs_var('bib-base') . '/assets/tabber.css');
-		wp_enqueue_style('tabber-css');
+		CSScripts::tabber();
 	}
 	
 	function admin($id = '', $what = 'config')

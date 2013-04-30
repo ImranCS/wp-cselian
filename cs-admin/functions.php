@@ -1,4 +1,5 @@
 <?php
+include_once 'inc/CHtml.php';
 
 if (!function_exists('cs_var')) {
 function cs_var($name, $val = null)
@@ -12,4 +13,10 @@ function cs_var($name, $val = null)
 } }
 
 cs_var('adm-base', content_url('plugins/' . plugin_basename(dirname(__FILE__))));
+
+function _nl($txt, $br = 0)
+{
+	echo $txt . '
+' . ($br ? '<br />' : '');
+}
 ?>

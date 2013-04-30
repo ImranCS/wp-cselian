@@ -3,26 +3,36 @@ include_once 'csa-base.php';
 class CSAdminReseed extends CSAdminBase
 {
 	// Include any extra tables that point to posts
-	public static $tables = array(
-		'postmeta' => 'post_id',
-		'term_relationships' => 'object_id',
-		'posts' => 'ID'
+	public static $tables = array( // dont want a tuple / 2dim array, but have to support multiple fields in the same table
+		'postmeta', 'post_id',
+		'term_relationships', 'object_id',
+		'posts', 'post_parent',
+		'posts', 'ID',
 	);
 
 	public $ok;
 	public $del;
 	public $fix;
+	public $rem;
 	public $seed = 1;
 
 	function __construct()
 	{
+		CSScripts::admin();
 		if ($this->isAction('del')) $this->delete();
-		else if ($this->isAction('fix') || $this->isAction('change')) $this->fix(); 
+		else if ($this->isAction('fix') || $this->isAction('change')) $this->fix();
+		else if ($this->isAction('remove')) $this->remove(); 
 
 		$this->okOrMessed();
 		$this->deletable();
 	}
 
+	function remove()
+	{
+		$id = $_POST[$this->action . 'Id'];
+		wp_delete_post($id, 1);
+	}
+	
 	function delete()
 	{
 		if (function_exists('tw_disable_revisions_install')) {
@@ -87,24 +97,24 @@ class CSAdminReseed extends CSAdminBase
 		
 		$this->msg= sprintf('Changed %s to %s', $from, $to);
 		
-		foreach (self::$tables as $tbl=>$id)
+		$ub = count(self::$tables);
+		for ($i = 0; $i < $ub ; $i+=2)
 		{
+			$tbl = self::$tables[$i]; $id = self::$tables[$i + 1];
 			$sql = sprintf('update %s%s set %s = %s where %s = %s', $wpdb->prefix, $tbl, $id, $to, $id, $from);
-			$wpdb->query($sql); 
+			if (1) $wpdb->query($sql); else echo $sql;
 		}
 	}
 	
 	function okOrMessed()
 	{
-		$wks = get_posts('post_type=any&orderby=ID&order=ASC');
+		$posts = get_posts('post_type=any&orderby=ID&order=ASC');
 		$id = 0;
 		$messed = false;
-		foreach ($wks as $itm)
+		foreach ($posts as $itm)
 		{
 			$messed = $messed || $itm->ID != $id + 1;
-			$show = sprintf('%s %s - %s', $itm->ID, $itm->post_title, 
-				CHtml::link('view ' . ucfirst(get_post_type($itm->ID)), get_permalink($itm)));
-				
+			$show = self::_r($itm);
 			if (!$messed)
 			{
 				$this->ok[$itm->ID] = $show;
@@ -116,6 +126,19 @@ class CSAdminReseed extends CSAdminBase
 				$this->fix[$itm->ID] = $show;
 			}
 		}
+		
+		$posts = get_posts('post_status=draft&orderby=ID&order=ASC');
+		foreach ($posts as $itm)
+			$this->rem[$itm->ID] = self::_r($itm);
+	}
+	
+	function _r($itm, $include = 0)
+	{
+		$show = sprintf('%s %s - %s', $itm->ID, $itm->post_title, 
+			CHtml::link('view ' . ucfirst(get_post_type($itm->ID)), get_permalink($itm)));
+		if ($include == 'status') $show .= ' / ' . $itm->post_status;
+		if ($itm->post_parent != 0) $show .= ' / par: ' . $itm->post_parent;
+		return $show;
 	}
 }
 $rs = new CSAdminReseed();
@@ -141,8 +164,20 @@ if (count($rs->del) == 0) {
 	_nl('', 1); _nl('', 1);
 	_nl(CHtml::submitButton('Delete'));
 	_nl(CHtml::endForm());
-}	
+}
 _nl('', 1); _nl('', 1);
+
+if (count($rs->rem) > 0) {
+	$rs->head('Removable posts');
+	$rs->message('remove');
+	$rs->form('remove');
+		_nl('', 1);
+	echo CHtml::radioButtonList('removeId', $_POST['removeId'] , $rs->rem);
+	_nl('', 1); _nl('', 1);
+	_nl(CHtml::submitButton('Remove '));
+	_nl(CHtml::endForm());
+	_nl('', 1); _nl('', 1);
+}
 
 $rs->head('Contiguous posts');
 $rs->message('change');
@@ -156,6 +191,7 @@ if (count($rs->ok) == 0) {
 	_nl(CHtml::submitButton('Change to ') . CHtml::textField('changeTo', '', array('style'=> 'width:40px;')));
 	_nl(CHtml::endForm());
 }
+_nl('', 1); _nl('', 1);
 
 $rs->head('Posts to Fix');
 $rs->message('fix');
