@@ -131,7 +131,7 @@ class CSAdminReseed extends CSAdminBase
 	
 	function okOrMessed()
 	{
-		$posts = get_posts('post_type=any&orderby=ID&order=ASC');
+		$posts = get_posts('post_type=any&orderby=ID&order=ASC&numberposts=0');
 		$id = 0;
 		$messed = false;
 		foreach ($posts as $itm)
@@ -150,9 +150,11 @@ class CSAdminReseed extends CSAdminBase
 			}
 		}
 		
-		$posts = get_posts('post_status=draft&orderby=ID&order=ASC');
-		foreach ($posts as $itm)
-			$this->rem[$itm->ID] = self::_r($itm, 'status');
+		$posts = get_posts('post_status=draft,auto-draft&orderby=ID&order=ASC');
+		foreach ($posts as $itm) $this->rem[$itm->ID] = self::_r($itm, 'status');
+			
+		$posts = get_posts('post_type=attachment&orderby=ID&order=ASC');
+		foreach ($posts as $itm) $this->rem[$itm->ID] = self::_r($itm, 'status');
 	}
 	
 	function _r($itm, $include = '')
