@@ -15,3 +15,7 @@
 .actions a.button { margin-bottom: 12px; width: 80px; text-align: center; }
 
 .postbox { line-height: 18px!important; } /* offset 1 in wp-admin.css line 2153 */
+
+/* page gen */
+#gen-content { background-color: #FFFFF0; padding: 10px; margin-top: 10px; width: 700px; }
+.right { float: right; }

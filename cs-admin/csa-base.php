@@ -5,6 +5,8 @@ class CSAdminBase
 	public $msg;
 	public $action;
 	
+	protected $slug;
+	
 	function show($what, $empty = 'Nothing')
 	{
 		echo $what == null || count($what) == 0 ? $empty : implode('<br/>
@@ -25,7 +27,12 @@ class CSAdminBase
 	function form($a = '')
 	{
 		if ($a != '') $a = sprintf('&%s=1', $a);
-		_nl(CHtml::tag('form', array('action' => '?page=' . CSAdmin::$reseedSlug . $a, 'method' => 'post') ));
+		_nl(CHtml::tag('form', array('action' => '?page=' . $this->slug . $a, 'method' => 'post') ));
+	}
+	
+	function refresh()
+	{
+		_nl(CHtml::link('Refresh', '?page=' . $this->slug, array('class' => 'button button-small') ), 1);
 	}
 	
 	protected function isAction($a)

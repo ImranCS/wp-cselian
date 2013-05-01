@@ -29,6 +29,7 @@ An assortment of Wordpress Admin / core features
 * Snippets like [TrueMultisite](https://github.com/ImranCS/wp-cselian/wiki/Admin#true-multisite) - separate DBs for same code base.
 * Multisite Plugin Overview to see what is installed where. [See demo](http://cselian.com/blog/wp-content/plugins/cs-admin/ms-plugins.php).
 * Reseed - change/reorganize ids to make contiguous, change wp_posts identity and trash posts / remove drafts.
+* HtmlGen - Dynamically generate and update post_content so that search works. Get the best of both worlds.
 * Scripts - library for extra / custom reusable assets.
 * Functions - cs_var for runtime variables, _nl for whitespace fanatics, CHtml from yii.
 * CSAdminBase - base class for admin pages, easily print headings, forms, messages. check and log actions.

@@ -41,12 +41,16 @@ class CSAdmin
 	}
 	
 	public static $reseedSlug = 'csadmin-reseed';
+	public static $htmlSlug = 'csadmin-htmlgen';
 	
 	function register_admin()
 	{
 		// Made Other a plugin Multisite (if config found)
 		add_submenu_page('tools.php', 'Reseed Posts', 'Reseed', 'manage_options', 
 			self::$reseedSlug, array($this, 'pages_reseed'));
+
+		add_submenu_page('tools.php', 'Generate Html for Pages', 'Html Gen', 'manage_options', 
+			self::$htmlSlug, array($this, 'pages_htmlgen'));
 	}
 	
 	function plugin_link($links, $file)
@@ -61,6 +65,11 @@ class CSAdmin
 	function pages_reseed()
 	{
 		include 'reseed.php';
+	}
+
+	function pages_htmlgen()
+	{
+		include 'htmlgen.php';
 	}
 }
 new CSAdmin();

@@ -21,6 +21,8 @@ class CSAdminReseed extends CSAdminBase
 	function __construct()
 	{
 		CSScripts::admin();
+		$this->slug = CSAdmin::$reseedSlug;
+		
 		if ($this->isAction('del')) $this->delete();
 		else if ($this->isAction('fix') || $this->isAction('change')) $this->fix();
 		else if ($this->isAction('remove')) $this->remove();
@@ -193,7 +195,7 @@ _nl('</div>');
 	This tool helps you remove revisions and clean-up/reorder these IDs.<br />
 	Then it lets you change the AUTO_INCREMENT (Seed) of the posts table<br /><br />
 <?php
-_nl(CHtml::link('Refresh', '?page=' . CSAdmin::$reseedSlug, array('class' => 'button button-small') ), 1);
+$rs->refresh();
 
 $rs->head('Deletable posts');
 $rs->message('del');
