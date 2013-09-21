@@ -1,7 +1,10 @@
 <?php
-_nl('<b>' . get_the_title() . '</b>', 1);
+_nl('<b>' . get_the_title() . '</b>' , 1);
 $auth = cs_work_get('author');
-if ($auth != null) echo 'by ' . WorkNav::authorLink($auth);
+if ($auth != null) _nl('by ' . WorkNav::termLink($auth), 1);
+_nl('<b>Type</b>: ' . WorkNav::typeLink(cs_work_read($id, 'type')));
+$sub = cs_work_get('subtype');
+if ($sub) _nl(' -> ' . $sub, 1); else _nl('', 1);
 ?>
 			<div class="find work">
 				<form method="get" class="searchform" action="<?php echo WorkNav::post($id, 'search'); ?>">

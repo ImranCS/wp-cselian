@@ -12,6 +12,9 @@ class WorkNav
 		wp_register_style('bibworks-css', cs_var('bib-base') . '/assets/works.css');
 		wp_enqueue_style('bibworks-css');
 		
+		wp_register_script('bibworks-js', cs_var('bib-base') . '/assets/works.js', array('jquery'));
+		wp_enqueue_script('bibworks-js');
+		
 		if (!cs_work_get('hascontent')) return; 
 		CSScripts::tabber();
 	}
@@ -37,11 +40,27 @@ class WorkNav
 		return get_permalink($id) . $qs;
 	}
 	
-	function authorLink($a)
+	function termLink($t)
 	{
-		return CHtml::link($a->name, get_term_link($a));
+		return sprintf('<a href="%s" title="%s">%s</a>',
+				 get_term_link($t), $t->description, $t->name);
 	}
 
+	function typeLink($t, $url = 0)
+	{
+		if (!$url) $url = WorkConfig::dirLink('url');
+		return sprintf('<a href="%s?type=%s">%s</a> ',
+				$url, WorkConfig::formatType($t, 'slug'), WorkConfig::formatType($t));
+	}
+	
+	function type()
+	{
+		if (!isset($_GET['type'])) return 0;
+		$t = $_GET['type'];
+		$types = WorkConfig::types('orig', 'slug'); // orig from slug
+		return $types[$t];
+	}
+	
 // These are getters from url
 	function nodeOrSearch()
 	{

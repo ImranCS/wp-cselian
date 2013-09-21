@@ -8,27 +8,28 @@ class WorksWidget extends WP_Widget
 
 	function widget($args, $instance) {
 		echo $args['before_widget'];
-		echo '<h2 class="widgettitle">Works</h2>';
+		echo '<h2 class="widgettitle">'.WorkConfig::dirLink().'</h2>';
 		self::worksByType();
 		echo $args['after_widget'];
 	}
 	
 	function worksByType()
 	{
-		$wks = get_posts('post_type=work');
-		$data = array();
-		foreach ($wks as $itm)
+		$types = 0; $works = 0;
+		WorkCache::getWorks(&$types, &$works);
+
+		$byType = array();
+		foreach ($types as $t=>$val)
+			$byType[$t] = array();
+
+		foreach ($works as $wk)
+			$byType[$wk->type][] = $wk->link;
+		ksort($byType);
+
+		foreach ($byType as $t=>$wks)
 		{
-			$wk = cs_work($itm->ID);
-			$data[$wk['type']] .= CHtml::link($itm->post_title, get_permalink($itm)) . '<br/>
-';
-		}
-		ksort($data);
-		$type = cs_var('workTypes');
-		foreach ($data as $t=>$wks)
-		{
-			_nl('<span class="sb-what">' . ucfirst($type[$t]) . 's</span>');
-			echo $wks;
+			_nl('<span class="sb-what">' . WorkNav::typeLink($t, $url) . '</span>');
+			echo implode('<br/>', $wks);
 		}
 	}
 }
@@ -51,7 +52,7 @@ class WorkAuthorsWidget extends WP_Widget
 	{
 		$list = get_terms('work_author');
 		foreach ($list as $itm)
-			_nl(WorkNav::authorLink($itm), 1);
+			_nl(WorkNav::termLink($itm), 1);
 	}
 }
 

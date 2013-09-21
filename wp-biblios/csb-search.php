@@ -11,14 +11,14 @@ class WorkSearch
 		
 		$data = array();
 		include $wk['contentFile'];
-		$slugs = $wk['config']['slugs'];
+		$slug = $wk['config']['slug'];
 		$titles = $wk['config']['titles'];
 		include_once 'csb-content.php';
 		
 		foreach ($nodes as $ix=>$key)
 		{
 			if (!isset($data[$key])) continue; // for bg which is incomplete
-			$node = $slugs[0] . $ix;
+			$node = $slug . $ix;
 			foreach ($data[$key] as $pg=>$items) {
 				//foreach ($items as $itm) {
 				$cnt = count($items);
@@ -32,9 +32,9 @@ class WorkSearch
 	%s</div>', $link, $pg, $itemName, $i, WorkContent::formatItem($itm, true));
 	
 						$found++;
-		  		}
-		  	}
-		  	//die("done"); //search only chapter 1 for now
+					}
+				}
+				//die("done"); //search only chapter 1 for now
 			}
 		}
 		if ($found) echo "<hr>";
@@ -44,18 +44,17 @@ class WorkSearch
 	private function nodeList($wk)
 	{
 		$titles = $wk['config']['titles'];
-		$slugs = $wk['config']['slugs'];
 		$tcnt = count($titles);
 		
 		$nodes = array();
-		if (count($slugs) == 1)
+		if (!isset($wk['config']['slug2']))
 		{
 			for ($n = 1; $n < $tcnt; $n++)
 				$nodes[$n] = sprintf($wk['config']['keyFormat'], $n);
 		}
 		else
 		{
-			throw new Exception('nodeList not implemented for 2 level slugs');
+			throw new Exception('nodeList not implemented for 2 level menu');
 		}
 		return $nodes;
 	}

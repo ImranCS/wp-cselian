@@ -12,20 +12,25 @@ function cs_var($name, $val = null)
 
 function cs_work($id, $data = null)
 {
-	$file = sprintf('%s/%s.dat', cs_var('bib-data'), $id);
 	if ($data != null)
 	{
-		file_put_contents($file, serialize($data));
+		if (is_array($data))
+			$data = WorkConfig::merge(cs_work($id), $data);
+		else
+			$data = WorkConfig::sanitize($data);
+		WorkCache::clear();
+		update_post_meta($id, 'workConfig', $data);
 	}
 	else
 	{
-		if (!file_exists($file))
-			return array('type' => 'book', 'fol' => 'books/{name}');
-		return unserialize(file_get_contents($file));
+		$cfg = get_post_meta($id, 'workConfig', true);
+		if ($cfg == '') // OR bib-redo-import
+			$cfg = WorkConfig::import($id);
+		return $cfg;
 	}
 }
 
-function cs_work_read($id)
+function cs_work_read($id, $retKey = null, $subKey = null)
 {
 	$key = 'work-' . $id;
 	$wk = cs_var($key);
@@ -33,19 +38,12 @@ function cs_work_read($id)
 	{
 		$wk = cs_work($id);
 		if ($wk['fol'] != '')
-		{
-			$cfg = sprintf('%s/%s/config.php', cs_var('bib-data'), $wk['fol']);
-			$wk['cfgFile'] = $cfg;
-			$wk['contentFile'] = sprintf('%s/%s/content.php', cs_var('bib-data'), $wk['fol']);
-			if ($wk['cfgOk'] = file_exists($cfg))
-				$wk['config'] = include $cfg;
-			else
-				$wk['cfgError'] = sprintf('<div class="work-error"><em>Missing Config!</em><br/> Go the the %s folder and add %s/config.php, or %s the folder correctly.</div>', 
-					CHtml::link('data', content_url('/data/'), array('target' => '_blank')), $wk['fol'], 
-					CHtml::link('edit', get_edit_post_link($id, '')));
-		}
+			$wk = WorkConfig::read($id, $wk);
+		cs_var($key, $wk); // cache in memory
 	}
-	return $wk;
+	if ($retKey == null) return $wk;
+	if ($subKey != null) return isset($wk[$subKey][$subKey]) ? $wk[$subKey][$subKey] : false;
+	return isset($wk[$retKey]) ? $wk[$retKey] : false;
 }
 
 function cs_work_get($what)
@@ -75,6 +73,8 @@ function cs_work_get($what)
 		_nl('</div>');
 	} else if ($what == 'header') {
 		include 'csb-header.php';
+	} else if (array_search($what, WorkConfig::$optional) !== false) {
+		return isset($wk['config'][$what]) ? $wk['config'][$what] : false;
 	} else {
 		throw new Exception($what . ' not supported by cs_work_get');
 	}
@@ -83,5 +83,5 @@ function cs_work_get($what)
 cs_var('bib-base', content_url('plugins/' . plugin_basename(dirname(__FILE__))));
 cs_var('bib-data', WP_CONTENT_DIR . '/data');
 cs_var('charset', 'iso-8859-1'); // utf8 not supported
-cs_var('workTypes', array('book', 'poem', 'short story', 'letter'));
+cs_var('workTypes', WorkConfig::types());
 ?>

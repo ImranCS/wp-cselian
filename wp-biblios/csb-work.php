@@ -46,9 +46,9 @@ class WorkRegistry
 	function render_meta_box()
 	{
 		global $post;
-		$wk = cs_work($post->ID);
+		$wk = cs_work_read($post->ID);
 		echo 'Type: ' . CHtml::dropDownList('workType', $wk['type'], cs_var('workTypes'));
-		echo '<br/>Data: ' . CHtml::textField('workFol', $wk['fol']);
+		echo '<br/>Folder: ' . CHtml::textField('workFol', $wk['fol']);
 		echo '<br/>' . CHtml::link('Edit Config', WorkNav::admin($post->ID));
 	}
 	
@@ -56,9 +56,10 @@ class WorkRegistry
 	{
 		global $post;
 		if ($post->post_type != 'work') return;
-		$wk = cs_work($post->ID);
-		$wk['type'] = $_POST['workType'];
-		$wk['fol'] = $_POST['workFol'];
+		$wk = array(
+			'type' => $_POST['workType'],
+			'fol' => $_POST['workFol'],
+		);
 		cs_work($post->ID, $wk);
 	}
 	
@@ -70,8 +71,9 @@ class WorkRegistry
 	
 	function options_config()
 	{
-		cs_var('editarea', 'php');
-		add_action('admin_footer','wp_editarea'); // that is initialized before this
+		//cs_var('editarea', 'php');
+		// NOTE: this is an external plugin
+		//add_action('admin_footer','wp_editarea'); // that is initialized before this
 		include 'work-config.php';
 	}
 }
