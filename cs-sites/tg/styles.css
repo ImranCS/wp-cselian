@@ -1,0 +1,15 @@
+/* Theme styles */
+body { background-color: #999; margin-bottom: 25px; }
+#main-container { background-color: #fff; margin: 15px auto 25px auto; }
+#logo { width: auto; }
+header .social-icons { float: right; }
+
+#main-navigation .posts { margin-left: 15px; }
+
+#footer-wrapper { width: 900px; margin: 25px auto; }
+#main-footer { background-image: none; margin: auto; width: 100%; }
+.footer-nav a { text-decoration: none; }
+.footer-nav li { border-bottom: none!important; float: left; margin-right: 10px!important; }
+
+/* Pages */
+img.right { float: right; margin: 0 0 10px 10px; }
