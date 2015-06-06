@@ -1,4 +1,14 @@
 <?php
+if (!function_exists('csc_jqScript')) {
+function csc_jqScript($script)
+{
+	echo sprintf('<script type="text/javascript">
+jQuery(document).ready(function($) {
+%s
+});
+</script>', $script);
+} }
+
 if (function_exists('csc_jqScript')) {
 	csc_jqScript(sprintf('
 	$(window).resize(function() {
@@ -10,7 +20,6 @@ if (function_exists('csc_jqScript')) {
 } else {
 	echo CSFileThingie::$cscRequired;
 }
-
 echo sprintf('<iframe id="%s" src="%s" %s></iframe>',
 	CSFileThingie::$ftSlug, CSFileThingie::$link,
 	'width="100%" height="100%"');

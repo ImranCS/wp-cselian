@@ -38,8 +38,9 @@ class CSFileThingie
 		if ( version_compare( $wp_version, '2.8alpha', '>' ) )
 			add_filter( 'plugin_row_meta', array($this, 'plugin_link'), 10, 2 );
 
-		add_action('admin_menu', array(&$this, 'register_admin'));
-		add_action('plugins_loaded', array(&$this, 'check_config'));
+		add_action('admin_menu', array($this, 'register_admin'));
+		add_action('plugins_loaded', array($this, 'check_config'));
+		include_once 'shortcodes.php';
 	}
 
 	function check_config()
