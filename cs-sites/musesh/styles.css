@@ -1,0 +1,12 @@
+#singlepagenav { z-index: 1; }
+.singlepage { background-size: cover!important; color: #fff;
+	font-size: 32px; background-color: #347FBC!important; }
+.singlepage h3 { color: #fff!important; }
+
+#pg-welcome { background: url(wedding.jpg) no-repeat; background-size: contain!important; background-color: #807D84!important; }
+#pg-events { background: url(mehendi.jpg) no-repeat; }
+
+#pg-welcome h3 { display: none; }
+
+.datecounter { position: fixed; right: 30px; bottom: 30px; display: inline-block;
+  font-size: 16px; background-color: #00A8E7; color: #fff; font-weight: bold; padding: 10px; border-radius: 15px; }

@@ -1,0 +1,54 @@
+/* Design */
+body { background-color: #333; }
+
+/* Pages */
+#pg-home { /*background: #000 url(pages/home.jpg) no-repeat center top; background-size: cover;*/ }
+#pg-home h3, #pg-about_us h3, #pg-team h3, #pg-our_brands h3, #pg-our_cities h3 { display: none; }
+#pg-team, #pg-contact { background-color: #fff; }
+#pg-home .pg-content { background-color: transparent; }
+
+#pg-home .pg-content, #pg-team .pg-content { height: 100%; margin: 0!important; padding: 0!important; }
+#pg-about_us .pg-content { margin-right: 0px!important; padding: 0px!important; }
+.pg-tile-cont { width: 100%; }
+.pg-tile-cont td { background-repeat: no-repeat; background-size: cover;
+	background-color: #fff; background-position: center center;
+	height: 33%; width: 33%; }
+
+.tabbernav { text-align: right; display: none; }
+#pg-team .tabbertab ul { padding-top: 20px; }
+#teamtabs .tabbertab { padding: 0!important; border: none!important; }
+
+.contact-field input[type=text], .contact-field textarea { width: 100%; }
+
+/* Nav */
+#singlepagenav { position: fixed; text-align: right; top: 35px; right: 15px; }
+#singlepagenav { margin: 0!important; padding: 0!important; }
+#singlepagenav li { display: inline-block; background-color: #fdf9f8; margin-right: 4px; }
+#singlepagenav li a { color: #000; display: inline-block; padding: 6px; font-family: georgia; }
+#singlepagenav li:hover, #singlepagenav li.active { font-weight: bold; background-color: #89906B; }
+#singlepagenav li.active, #singlepagenav li.active:hover { background-color: #333; }
+#singlepagenav li.active a, #singlepagenav a:hover { color: #fff!important; }
+
+/* Pages */
+#singlepages { }
+.singlepage { min-height: 200px; margin-bottom: 30px; background-color: #fff; padding-bottom: 20px; }
+.pg-content { margin-right: 15px; }
+.singlepage h3 { margin-left: 30px; padding-top: 20px; color: #000; padding-bottom: 5px;
+	font-family: LaCarte, 'Gentium Basic', serif; font-size: 42px; }
+.pg-content { padding: 0 10px; }
+.spm-first { margin-bottom: 35px!important; }
+.singlepagemarker { }
+
+@media (min-width: 600px) {
+	.singlepage h3 { margin-left: 40px; }
+	.pg-content { margin-left: 10px; }
+}
+
+/* Alter basic template */
+html { margin-top: 0 !important; }
+.admin-bar #page { margin-top: 28px!important; }
+header, h2, #sidebar, #secondary { display: none!important; margin: 0!important; }
+#page, .wrapper { width: 100%!important; margin: 0px!important; max-width: 100%!important; }
+#content, #primary { width: 100%!important; float: none!important; }
+#singlepagenav { }
+#main { padding-top: 0!important; }

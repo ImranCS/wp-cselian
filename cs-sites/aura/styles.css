@@ -1,0 +1,12 @@
+.fb-page { margin: 0 8px 0 20px; float: left; }
+#social { display: none; width: 21%; position: absolute; top: 110px; right: 0; z-index: 10; }
+@media screen and (min-width: 768px) {
+	#social { display: block; }
+	.site-branding, .main-navigation { margin-left: 170px; }
+	.site-header .col-full { background:  url(logo.jpg) top left no-repeat; }
+}
+
+/* Contact */
+.contact-field input, .contact-field textarea, .contact-field select { width: 350px; }
+.contact-message { font-size: 70%; display: block; }
+

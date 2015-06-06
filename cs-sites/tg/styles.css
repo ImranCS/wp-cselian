@@ -6,8 +6,8 @@ header .social-icons { float: right; }
 
 #main-navigation .posts { margin-left: 15px; }
 
-#footer-wrapper { width: 900px; margin: 25px auto; }
-#main-footer { background-image: none; margin: auto; width: 100%; }
+#footer-wrapper { max-width: 900px; margin: 25px auto; }
+#main-footer { background-image: none; margin: auto; }
 .footer-nav a { text-decoration: none; }
 .footer-nav li { border-bottom: none!important; float: left; margin-right: 10px!important; }
 

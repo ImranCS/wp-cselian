@@ -31,7 +31,7 @@ function cs_var($name, $val = null)
 
 function cs_is_not_fol($fol)
 {
-	if ($fol == '.' || $fol == '..') return 1;
+	if ($fol == '.' || $fol == '..' || $fol[0] == '_') return 1;
 	return '' != pathinfo($fol, PATHINFO_EXTENSION);
 }
 
@@ -57,14 +57,31 @@ function cssites_init()
 
 		cs_var('sitebase', ABSPATH . 'wp-content/plugins/cs-sites/' . $fol . '/');
 		cs_var('siteurl', content_url('plugins/cs-sites/' . $fol . '/'));
-		
-		
+
 		global $wp_version;
 		if (file_exists(cs_var('sitebase') . 'styles.php') && version_compare( $wp_version, '2.8alpha', '>' ) )
 			add_filter( 'plugin_row_meta', 'css_admin_links', 10, 2 );
 
-		
+		if (file_exists(cs_var('sitebase') . 'styles.css') )
+		{
+			wp_register_style('cs-site', cs_var('siteurl') . 'styles.css');
+			wp_enqueue_style('cs-site');
+		}
+
+		if (file_exists(cs_var('sitebase') . 'functions.php') )
+			require_once(cs_var('sitebase') . 'functions.php');
+
+		if (file_exists(cs_var('sitebase') . 'theme.php') )
+			require_once(cs_var('sitebase') . 'theme.php');
+
 		break;
+	}
+
+	$libs = scandir(cs_var('sitebase') . '../_lib');
+	foreach ($libs as $lib)
+	{
+		if ($lib == '.' || $lib == '..') continue;
+		include_once '_lib/' . $lib;
 	}
 }
 
