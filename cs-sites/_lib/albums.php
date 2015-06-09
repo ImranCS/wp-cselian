@@ -37,7 +37,7 @@ class CSAlbums
 	function link_albums()
 	{
 		$albums = scandir($this->fol);
-		$this->current = isset($_GET['album']) ? $_GET['album'] : $albums[2];
+		$this->current = cs_get('album', $albums[2]);
 		$url = get_permalink() . '?album=';
 		echo '<div class="albums"><strong>Albums</strong>: ' . PHP_EOL;
 		foreach ($albums as $album)
