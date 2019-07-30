@@ -1,0 +1,18 @@
+/* FROM TML */
+
+/* Members Feature */
+.members { cursor: default; }
+.members img { float: right; }
+.members li.person { border-bottom: 2px ridge maroon; margin-bottom: 6px; padding: 4px; }
+.members .heading { background: url(images/collapse.png) top right no-repeat; background-size: contain; padding-right: 40px; }
+.members .heading.collapsed { background-image: url(images/expand.png); }
+
+.contact label { display: block; }
+.contact label.inline { display: inline-block; }
+.contact p { margin-bottom: 25px; }
+.contact input[type=radio] { margin-left: 25px; }
+.contact input[type=submit] { background-color: #007dd1; }
+
+p.success, p.error { padding: 15px; border: 1px solid #666; }
+p.success { background-color: #00FF66; }
+p.error { background-color: #FF9999; }
